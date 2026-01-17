@@ -438,6 +438,25 @@ async def get_models(brand: str, current_user: User = Depends(get_current_user))
     models = await db.vehicles.distinct("model", {"brand": brand})
     return sorted(models)
 
+@api_router.get("/vehicles/saved")
+async def get_saved_vehicles(current_user: User = Depends(get_current_user)):
+    """Get user's saved vehicles"""
+    saved = await db.saved_vehicles.find(
+        {"user_id": current_user.user_id},
+        {"_id": 0}
+    ).sort("saved_at", -1).to_list(100)
+    
+    # Enrich with vehicle details
+    for item in saved:
+        vehicle = await db.vehicles.find_one(
+            {"vehicle_id": item["vehicle_id"]},
+            {"_id": 0}
+        )
+        if vehicle:
+            item["vehicle_details"] = vehicle
+    
+    return saved
+
 @api_router.get("/vehicles/{vehicle_id}")
 async def get_vehicle(vehicle_id: str, current_user: User = Depends(get_current_user)):
     """Get vehicle details"""
