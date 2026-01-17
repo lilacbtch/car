@@ -380,19 +380,19 @@ class CarlyticsAPITester:
         
         # Test saving a vehicle
         try:
-            params = {
+            payload = {
                 "vehicle_id": vehicle_id,
                 "estimated_value": 1200000.0,
-                "valuation_data": json.dumps({
+                "valuation_data": {
                     "brand": "Toyota",
                     "model": "Corolla",
                     "year": 2023,
                     "mileage": 25000,
                     "condition": "good"
-                })
+                }
             }
             response = requests.post(f"{self.base_url}/vehicles/save", 
-                                   headers=self.headers, params=params, timeout=10)
+                                   headers=self.headers, json=payload, timeout=10)
             if response.status_code == 200:
                 result = response.json()
                 self.saved_vehicle_id = result.get('saved_id')
