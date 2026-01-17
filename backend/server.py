@@ -71,7 +71,7 @@ class ValuationResponse(BaseModel):
     mileage_impact: float
     condition_factor: float
     market_trend: float
-    breakdown: Dict[str, any]
+    breakdown: Dict[str, Any]
 
 class SavedVehicle(BaseModel):
     saved_id: str
@@ -86,13 +86,13 @@ class PriceTrend(BaseModel):
     brand: str
     model: str
     year: int
-    price_history: List[Dict[str, any]]  # [{date, price, mileage}]
+    price_history: List[Dict[str, Any]]  # [{date, price, mileage}]
 
 class OCRResult(BaseModel):
     detected_text: str
     vin: Optional[str] = None
     license_plate: Optional[str] = None
-    extracted_data: Dict[str, any]
+    extracted_data: Dict[str, Any]
 
 # ==================== AUTHENTICATION ====================
 
