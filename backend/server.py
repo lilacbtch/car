@@ -88,11 +88,13 @@ class PriceTrend(BaseModel):
     year: int
     price_history: List[Dict[str, Any]]  # [{date, price, mileage}]
 
-class OCRResult(BaseModel):
-    detected_text: str
-    vin: Optional[str] = None
-    license_plate: Optional[str] = None
-    extracted_data: Dict[str, Any]
+class OCRRequest(BaseModel):
+    image_base64: str
+
+class SaveVehicleRequest(BaseModel):
+    vehicle_id: str
+    estimated_value: float
+    valuation_data: Dict[str, Any]
 
 # ==================== AUTHENTICATION ====================
 
