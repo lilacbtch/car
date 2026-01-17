@@ -491,9 +491,7 @@ async def get_price_trends(vehicle_id: str, current_user: User = Depends(get_cur
 
 @api_router.post("/vehicles/save")
 async def save_vehicle(
-    vehicle_id: str,
-    estimated_value: float,
-    valuation_data: Dict,
+    request: SaveVehicleRequest,
     current_user: User = Depends(get_current_user)
 ):
     """Save a vehicle valuation"""
@@ -502,9 +500,9 @@ async def save_vehicle(
     saved_vehicle = {
         "saved_id": saved_id,
         "user_id": current_user.user_id,
-        "vehicle_id": vehicle_id,
-        "estimated_value": estimated_value,
-        "valuation_data": valuation_data,
+        "vehicle_id": request.vehicle_id,
+        "estimated_value": request.estimated_value,
+        "valuation_data": request.valuation_data,
         "saved_at": datetime.now(timezone.utc)
     }
     
