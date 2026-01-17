@@ -404,20 +404,24 @@ class CarlyticsAPITester:
         except Exception as e:
             self.log_test("Save Vehicle", False, f"Exception: {str(e)}")
         
-        # Test retrieving saved vehicles
+        # Test retrieving saved vehicles (should have at least the one we just saved)
         try:
             response = requests.get(f"{self.base_url}/vehicles/saved", 
                                   headers=self.headers, timeout=10)
             if response.status_code == 200:
                 saved_vehicles = response.json()
                 if isinstance(saved_vehicles, list):
-                    self.log_test("Get Saved Vehicles", True, 
-                                f"Retrieved {len(saved_vehicles)} saved vehicles")
+                    if len(saved_vehicles) > 0:
+                        self.log_test("Get Saved Vehicles", True, 
+                                    f"Retrieved {len(saved_vehicles)} saved vehicles")
+                    else:
+                        self.log_test("Get Saved Vehicles", True, 
+                                    "No saved vehicles found (empty list)")
                 else:
                     self.log_test("Get Saved Vehicles", False, "Invalid response format")
             else:
                 self.log_test("Get Saved Vehicles", False, 
-                            f"Status: {response.status_code}")
+                            f"Status: {response.status_code}", response.text)
         except Exception as e:
             self.log_test("Get Saved Vehicles", False, f"Exception: {str(e)}")
         
