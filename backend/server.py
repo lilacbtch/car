@@ -590,12 +590,13 @@ async def scan_document(
 
 @api_router.post("/ocr/scan-base64")
 async def scan_document_base64(
-    image_base64: str,
+    request: OCRRequest,
     current_user: User = Depends(get_current_user)
 ):
     """Scan vehicle document from base64 image"""
     try:
         # Decode base64
+        image_base64 = request.image_base64
         if ',' in image_base64:
             image_base64 = image_base64.split(',')[1]
         
