@@ -341,9 +341,9 @@ class CarlyticsAPITester:
         test_image_base64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
         
         try:
-            payload = {"image_base64": test_image_base64}
+            params = {"image_base64": test_image_base64}
             response = requests.post(f"{self.base_url}/ocr/scan-base64", 
-                                   headers=self.headers, json=payload, timeout=15)
+                                   headers=self.headers, params=params, timeout=15)
             if response.status_code == 200:
                 result = response.json()
                 detected_text = result.get('detected_text', '')
